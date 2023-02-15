@@ -1,0 +1,7 @@
+<h1>welcome to uhome</h1>
+{%if user.is_authenticated%}
+{{user.first_name}}
+{%else%}
+no user login
+{%endif%}
+<a href="logout">Logout</a>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Book Details</title>
+        <style>
+            table, th, tr, td {border: 1px solid black}
+
+        </style>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+            
+            <table>
+                <h3> Book Details </h3>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Description</th>
+                <th>Cost</th>
+                <th>Public Visibility</th>
+                <th>Uploaded file</th>
+                {% for book in book %}
+                    <tr>
+                        <td>{{book.id}}</td>
+                        <td>{{book.title}}</td>
+                        <td>{{book.author}}</td>
+                        <td>{{book.address}}</td>
+                        <td>{{book.birth_date}}</td>
+                        <td>{{book.public_visibility}}</td>
+                        <td>{{file_url}}</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Authers and Sellers</title>
+        <style>
+            table, th, tr, td {border: 1px solid black}
+
+        </style>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+            
+            <table>
+                <h3> Authers and Sellers </h3>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Birth Date</th>
+                <th>Public Visibility</th>
+                {% for CustomUser in CustomUser %}
+                    <tr>
+                        <td>{{CustomUser.id}}</td>
+                        <td>{{CustomUser.email}}</td>
+                        <td>{{CustomUser.age}}</td>
+                        <td>{{CustomUser.address}}</td>
+                        <td>{{CustomUser.birth_date}}</td>
+                        <td>{{CustomUser.public_visibility}}</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+    </body>
+</html>
