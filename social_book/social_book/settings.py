@@ -173,34 +173,35 @@ WSGI_APPLICATION = 'social_book.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-DATABASE_ROUTERS = ['social_book.UsersRouter.UsersRouter', 'social_book.api_appRouter.api_appRouter']
+# DATABASE_ROUTERS = ['social_book.UsersRouter.UsersRouter', 'social_book.api_appRouter.api_appRouter']
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Initial_db',
+        'NAME': 'socialbook-db',
         'USER': 'postgres',
         'PASSWORD': 'Simran21',
-        'HOST': 'socialbook-db-instance.c1ttqa9i87aq.ap-south-1.rds.amazonaws.com',
-        'PORT': '5432',
-    },
-    'users': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Initial_db',
-        'USER': 'postgres',
-        'PASSWORD': 'Simran21',
-        'HOST': 'socialbook-db-instance.c1ttqa9i87aq.ap-south-1.rds.amazonaws.com',
-        'PORT': '5432',
-    },
-    'api_app': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Initial_db',
-        'USER': 'postgres',
-        'PASSWORD': 'Simran21',
-        'HOST': 'socialbook-db-instance.c1ttqa9i87aq.ap-south-1.rds.amazonaws.com',
+        'HOST': 'socialbook-db.ct4mo8wikpci.eu-north-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
+#     'users': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Initial_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Simran21',
+#         'HOST': 'socialbook-db-instance.c1ttqa9i87aq.ap-south-1.rds.amazonaws.com',
+#         'PORT': '5432',
+#     },
+#     'api_app': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Initial_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Simran21',
+#         'HOST': 'socialbook-db-instance.c1ttqa9i87aq.ap-south-1.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # DATABASES = {
@@ -214,18 +215,31 @@ DATABASES = {
 #     }
 # }
 
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # }
+#      'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'socialbook',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 
 
 
 
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = '2019153@iiitdmj.ac.in'
-# EMAIL_HOST_PASSWORD ='dqwqoiwfhoq'
-# EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '2019153@iiitdmj.ac.in'
+EMAIL_HOST_PASSWORD ='dqwqoiwfhoq'
+EMAIL_USE_TLS = True
 
 
 # Password validation
@@ -262,7 +276,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]

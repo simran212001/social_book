@@ -13,6 +13,10 @@ users_urlpatterns = [
     path('registered_user/',views.registered_user,name='registered_user'),
     path('upload_books/',views.upload_books,name='upload_books'),
     path('book_details/',views.book_details,name='book_details'),
+
+
+    path('profile/',views.profile,name='profile'),
+   
     
 
 ]

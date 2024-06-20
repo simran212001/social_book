@@ -76,17 +76,14 @@ class CustomUser(AbstractUser):
 
 class Book(models.Model):
     # fk = models.ForeignKey(CustomUser, on_delete=models.SET_NULL,null=True )
-    title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
-    category = models.CharField(max_length=50)
-    file = models.FileField(blank=True, null=True)
-    cover = models.ImageField(upload_to='cover/')
-    pdf = models.FileField(upload_to='pdf/')
 
-    def delete(self, *args, **kwargs):
-        self.cover.delete()
-        self.pdf.delete()
-        super(Book, self).delete(*args, **kwargs)
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=200, blank=True, null=True)
+    category = models.CharField(max_length=200, blank=True, null=True)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    file = models.FileField(upload_to='books/')
+    cover = models.ImageField(upload_to='covers/')
+    public_visibility = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title

@@ -29,11 +29,11 @@ def register(request):
         username=request.POST['username']
         pwd=request.POST['pwd']
         cpwd=request.POST['cpwd']
-        # print(email,'emaildnwofjef')
+       
         fullname=request.POST['fullname']
         gender=request.POST['gender']
         
-        Birth_year = request.POST.get('Birth_year')
+        age = request.POST['age']
 
         city=request.POST['city']
         state=request.POST['state']
@@ -48,8 +48,9 @@ def register(request):
             return HttpResponse('passwords do not match')
         db = get_user_model()
         # user=db.objects.create_user(email=email,username=username,password=pwd,fullname=fullname,gender=gender,city=city,state=state,cctype=cctype,ccnumber=ccnumber,cvc=cvc,expdate=expdate,address=address)
-        user=db.objects.create(email=email,username=username,password=pwd,fullname=fullname,gender=gender)
+        user=db.objects.create(email=email,username=username,password=pwd,fullname=fullname,gender=gender,age=age,city=city,state=state, credit_num=credit_num,cvc=cvc)
         print(user)
+        print(user.email)
         user.set_password(pwd)
         user.save()
 
@@ -103,7 +104,7 @@ def login(request):
 
             auth.login(request,user)
             messages.success(request,'login sucessfully')
-            return render(request,'index.html')
+            return render(request,'index.html',{'user':user})
         else:
             messages.info(request,'Invalid userid and password')
             return render(request,'login.html')
@@ -129,38 +130,53 @@ def registered_user(request):
 
 
 def upload_books(request):
-    if request.method == 'POST' and request.FILES['Upload']:
-        title=request.POST.get('title')
-        author=request.POST['author']
-        category=request.POST['category']
-        Upload = request.FILES['Upload']
+    if request.method == 'POST' :
+        title = request.POST['title']
+        author = request.POST.get('author', '')
+        category = request.POST.get('category', '')
+        cost = request.POST.get('cost', '0.00')
+        public_visibility = 'public_visibility' in request.POST
+        
+        cover = request.FILES.get('cover')
+        file = request.FILES.get('file')
+        
+        book = Book(title=title, author=author, category=category, cost=cost, public_visibility=public_visibility)
+        
+        if cover:
+            book.cover = cover
+        if file:
+            book.file = file
+        
+        book.save()
 
     # 12/2/23
-        Book_file = Book.objects.create(
-                                       title=Upload.name,
-                                       file=Upload
-                                      )
-        file_path= Book_file.file.path
+        # Book_file = Book.objects.create(
+        #                                title=Upload.name,
+        #                                file=Upload
+        #                               )
+        # file_path= Book_file.file.path
 
-        fss = FileSystemStorage()
-        file = fss.save(Upload.name, Upload)
-        file_url = fss.url(file)
+        # fss = FileSystemStorage()
+        # file = fss.save(Upload.name, Upload)
+        # file_url = fss.url(file)
         
 
-        book = Book()
-        book.title = title
-        book.author = author
-        book.category = category
+        # book = Book()
+        # book.title = title
+        # book.author = author
+        # book.category = category
         # book.upload = upload
         # book = Book.objects.create(title=title,author=author,category=category)
-        book.save()
+      
         print("book saved")
-        return render(request, 'upload_books.html', {'file_url': file_url},{"file_path":file_path})
+        # return render(request, 'upload_books.html', {'file_url': file_url},{"file_path":file_path})
+        return render(request, 'upload_books.html')
+    
     return render(request, 'upload_books.html')
 
 
 def book_details(request):
-    book_details = Book.objects.all()
+    book_details = Book.objects.filter(public_visibility=True)
     # file = Book.objects.create(
     #                                    name=file.title,
     #                                    file=file
@@ -172,7 +188,8 @@ def book_details(request):
 
 
 
-
+def profile(request):
+    return render(request,'profile.html')
 
 
 
