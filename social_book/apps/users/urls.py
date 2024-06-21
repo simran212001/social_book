@@ -16,6 +16,8 @@ users_urlpatterns = [
 
 
     path('profile/',views.profile,name='profile'),
+    path('my_books/',views.my_books,name='my_books'),
+
    
     
 

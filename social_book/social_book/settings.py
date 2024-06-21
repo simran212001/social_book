@@ -46,13 +46,13 @@ INSTALLED_APPS = [
     'apps.api_app',
     'apps.djoser_api',
 
-
+    'django.contrib.sites',
     # 'accounts',
     # 'rest_framework_simplejwt',
     # 'rest_framework_simplejwt.token_blacklist',
     # 'social_django',
 ]
-
+SITE_ID = 1
 # #configure DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -238,7 +238,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = '2019153@iiitdmj.ac.in'
-EMAIL_HOST_PASSWORD ='dqwqoiwfhoq'
+EMAIL_HOST_PASSWORD ='Simr153&&'
 EMAIL_USE_TLS = True
 
 
@@ -288,6 +288,22 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+# Replace these values with your database configuration
+DB_USER = 'postgres'
+DB_PASSWORD = 'Simran21'
+DB_HOST = 'socialbook-db.ct4mo8wikpci.eu-north-1.rds.amazonaws.com'
+DB_PORT = '5432'
+DB_NAME = 'socialbook-db'
+
+DATABASE_URL = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 

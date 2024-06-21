@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 
 from django.utils import timezone
-
+from django.conf import settings 
 
 class CustomUserManager(BaseUserManager):
 
@@ -59,7 +59,7 @@ class CustomUser(AbstractUser):
     age = models.IntegerField(null=True)
     birth_date = models.DateField(null=True)
     address = models.CharField(max_length=100,default="India")
-    public_visibility = models.BooleanField(default=True)
+    public_visibility = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -76,14 +76,15 @@ class CustomUser(AbstractUser):
 
 class Book(models.Model):
     # fk = models.ForeignKey(CustomUser, on_delete=models.SET_NULL,null=True )
-
+    uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='books')
+    title = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200, blank=True, null=True)
     category = models.CharField(max_length=200, blank=True, null=True)
     cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     file = models.FileField(upload_to='books/')
     cover = models.ImageField(upload_to='covers/')
-    public_visibility = models.BooleanField(default=True)
+    public_visibility = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

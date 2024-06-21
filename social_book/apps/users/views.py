@@ -12,6 +12,8 @@ from django.contrib.auth import authenticate
 
 from django.core.files.storage import FileSystemStorage
 from .models import Book
+from django.contrib.auth.decorators import login_required
+
 
 # User = settings.AUTH_USER_MODEL
 # import social_book.users.models
@@ -26,11 +28,12 @@ def register(request):
         # print("Simran")
         
         email=request.POST.get('email')
-        username=request.POST['username']
+        username=request.POST.get('username')
         pwd=request.POST['pwd']
         cpwd=request.POST['cpwd']
        
         fullname=request.POST['fullname']
+        public_visibility = 'public_visibility' in request.POST
         gender=request.POST['gender']
         
         age = request.POST['age']
@@ -121,14 +124,14 @@ def logout(request):
 def dashboard1(request):
     return render(request,'index.html')
 
-
+@login_required
 def registered_user(request):
     user_data = CustomUser.objects.filter(public_visibility=1)
     print(user_data)
     return render(request,'authsell.html',{'CustomUser':user_data})
 
 
-
+@login_required
 def upload_books(request):
     if request.method == 'POST' :
         title = request.POST['title']
@@ -174,7 +177,7 @@ def upload_books(request):
     
     return render(request, 'upload_books.html')
 
-
+@login_required
 def book_details(request):
     book_details = Book.objects.filter(public_visibility=True)
     # file = Book.objects.create(
@@ -187,9 +190,13 @@ def book_details(request):
 
 
 
-
+@login_required
 def profile(request):
     return render(request,'profile.html')
 
 
+@login_required
 
+def my_books(request):
+    books = Book.objects.filter(uploader=request.user)
+    return render(request, 'my_books.html', {'book': books})
