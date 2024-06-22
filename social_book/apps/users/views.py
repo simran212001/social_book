@@ -1,5 +1,8 @@
 
-
+from django.core.mail import send_mail
+import ssl
+import certifi
+from django.conf import settings 
 
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
@@ -20,6 +23,7 @@ from django.contrib.auth.decorators import login_required
 # AUTH_USER_MODEL = 'users.CustomUser'
 
 def home(request):
+    
     return render(request,'index.html')
 # Create your views here.
 def register(request):
@@ -46,49 +50,50 @@ def register(request):
         cvc=request.POST['cvc']
 
         # expdate=request.POST.get('month') +', ' + request.POST.get('year')
-        address = city + ', ' + state
+        address = f'{city}, {state}' if city and state else ''
+
         if pwd != cpwd:
             return HttpResponse('passwords do not match')
         db = get_user_model()
         # user=db.objects.create_user(email=email,username=username,password=pwd,fullname=fullname,gender=gender,city=city,state=state,cctype=cctype,ccnumber=ccnumber,cvc=cvc,expdate=expdate,address=address)
-        user=db.objects.create(email=email,username=username,password=pwd,fullname=fullname,gender=gender,age=age,city=city,state=state, credit_num=credit_num,cvc=cvc)
+        user=db.objects.create(email=email,
+                               username=username,
+                               password=pwd,
+                               fullname=fullname,
+                               gender=gender,
+                               age=age,
+                               city=city,
+                               state=state, 
+                               credit_num=credit_num,
+                               cvc=cvc)
         print(user)
         print(user.email)
         user.set_password(pwd)
         user.save()
 
 
-        # 9/2/23
-        # if user.is_active:
-        #     data = CustomUser.objects.all()
-        #     return render(request,'register.html',{'data',data})
-            
+        # Send welcome email with SSL context
+        subject = 'Welcome to the Social Book App'
+        message = f'Hi {username} ,\n\n Welcome to the Social Book App! We are excited to have you join our community.'
+        email_from = 'perficient50@gmail.com'
+        recipient_list = [email]
+
+        
+        send_mail(subject,
+                   message, 
+                   email_from, 
+                   recipient_list, 
+                   fail_silently=False, )
+
             
         print("data saved")
         messages.success(request,'sucessfully registered')
         return render(request,'login.html')
     else:
         return render(request,'register.html')
-    # return HttpResponse('register')
 
-        # User = get_user_model()
-    #     if pwd==cpwd:
-    #         if User.objects.filter(username=username).exists():
-    #             messages.info(request, 'Email is exist ')
-    #             return render(request,'register.html')
-    #         else:
-    #             user = User.objects.create(username=username,pwd=pwd, email=email)
-    #             user.set_password(pwd)
-    #             user.save()
-    #             messages.success(request,'sucessfully registered')
-    #             print("success")
-    #             return render(request,'login.html')
-    #     else:
-    #         messages.info(request, 'Both passwords are not matching')
-    #         return render(request,'register.html')
-    # else:
-    #     print("no post method")
-    #     return render(request, 'register.html') 
+
+
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
@@ -143,7 +148,7 @@ def upload_books(request):
         cover = request.FILES.get('cover')
         file = request.FILES.get('file')
         
-        book = Book(title=title, author=author, category=category, cost=cost, public_visibility=public_visibility)
+        book = Book(title=title, author=author, category=category, cost=cost, public_visibility=public_visibility, uploader=request.user)
         
         if cover:
             book.cover = cover

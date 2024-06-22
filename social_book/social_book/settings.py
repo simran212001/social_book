@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xu95!t3tv#8jljs#-bne3&xv_x+iia7f6v@@1n1e+q%q*0hg*i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -183,6 +183,9 @@ DATABASES = {
         'PASSWORD': 'Simran21',
         'HOST': 'socialbook-db.ct4mo8wikpci.eu-north-1.rds.amazonaws.com',
         'PORT': '5432',
+        'OPTIONS': {
+            'connect_timeout': 30,  # increase timeout to 30 seconds
+        },
     }
 }
 #     'users': {
@@ -230,7 +233,8 @@ DATABASES = {
 #     }
 # }
 
-
+import ssl
+import certifi
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -238,8 +242,16 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = '2019153@iiitdmj.ac.in'
-EMAIL_HOST_PASSWORD ='Simr153&&'
+EMAIL_HOST_PASSWORD ='pprpmcyczubtebyj'
 EMAIL_USE_TLS = True
+
+
+# # SSL context
+# EMAIL_USE_SSL = False  # Ensure this is set to False if using TLS
+# EMAIL_SSL_CERTFILE = certifi.where()
+# EMAIL_SSL_KEYFILE = None
+# EMAIL_TIMEOUT = None
+# EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 
 
 # Password validation
@@ -290,21 +302,39 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+# import sqlalchemy
+# from sqlalchemy import create_engine, MetaData, Table
+# from sqlalchemy.orm import sessionmaker
 
-# Replace these values with your database configuration
-DB_USER = 'postgres'
-DB_PASSWORD = 'Simran21'
-DB_HOST = 'socialbook-db.ct4mo8wikpci.eu-north-1.rds.amazonaws.com'
-DB_PORT = '5432'
-DB_NAME = 'socialbook-db'
+# # Replace these values with your database configuration
+# DB_USER = 'postgres'
+# DB_PASSWORD = 'Simran21'
+# DB_HOST = 'socialbook-db.ct4mo8wikpci.eu-north-1.rds.amazonaws.com'
+# DB_PORT = '5432'
+# DB_NAME = 'socialbook-db'
 
-DATABASE_URL = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+# DATABASE_URL = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# engine = create_engine(DATABASE_URL)
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
+# # Reflect existing database into a new model
+# metadata = MetaData()
+# metadata.reflect(engine)
+
+# # Assuming you want to query the CustomUser table
+# custom_user_table = Table('users_customuser', metadata, autoload_with=engine)
+
+# # Execute a query
+# query = sqlalchemy.select([custom_user_table])
+# result = session.execute(query)
+
+# # Print out the data
+# for row in result:
+#     print(row)
+
+# session.close()
 
 
 
